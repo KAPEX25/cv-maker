@@ -10,6 +10,9 @@ jobs:
   windows:
     name: Windows exe
     runs-on: windows-latest
+    env:
+      PYTHONIOENCODING: utf-8
+      PYTHONUTF8: "1"
     steps:
       - uses: actions/checkout@v7
 
@@ -35,6 +38,9 @@ jobs:
   macos:
     name: macOS app + dmg
     runs-on: macos-14
+    env:
+      PYTHONIOENCODING: utf-8
+      PYTHONUTF8: "1"
     steps:
       - uses: actions/checkout@v7
 

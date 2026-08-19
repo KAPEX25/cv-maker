@@ -14,8 +14,16 @@ build_icon.py — uygulama ikonlarını üretir.
 import io
 import os
 import struct
+import sys
 
 from PIL import Image, ImageDraw, ImageFont
+
+# Windows'ta konsol utf-8 olmayabilir (cp1252) — Türkçe çıktılar patlamasın.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 SRC = os.path.join("logos", "logo.png")
 DST_ICO = os.path.join("logos", "app.ico")
