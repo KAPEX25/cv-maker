@@ -35,8 +35,8 @@ jobs:
           name: CV-Olusturucu-Windows
           path: dist/CV-Olusturucu.exe
 
-  macos-x64:
-    name: macOS (Intel x64)
+  macos:
+    name: macOS dmg (Intel x64)
     runs-on: macos-14
     env:
       PYTHONIOENCODING: utf-8
@@ -54,66 +54,10 @@ jobs:
       - name: İkon üret
         run: python build_icon.py
 
-      - name: .app derle (Intel)
-        run: pyinstaller CV-Olusturucu-mac.spec --noconfirm
-
-      - name: Intel app'ini yükle
-        uses: actions/upload-artifact@v7
-        with:
-          name: macos-x64
-          path: dist/CV-Olusturucu.app
-          if-no-files-found: error
-
-  macos-arm64:
-    name: macOS (Apple Silicon arm64)
-    runs-on: macos-14-arm64
-    env:
-      PYTHONIOENCODING: utf-8
-      PYTHONUTF8: "1"
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: actions/setup-python@v7
-        with:
-          python-version: '3.11'
-
-      - name: Bağımlılıkları kur
-        run: python -m pip install pyinstaller==6.22.2 reportlab==5.0.0 pillow==12.3.0
-
-      - name: İkon üret
-        run: python build_icon.py
-
-      - name: .app derle (Apple Silicon)
-        run: pyinstaller CV-Olusturucu-mac.spec --noconfirm
-
-      - name: arm64 app'ini yükle
-        uses: actions/upload-artifact@v7
-        with:
-          name: macos-arm64
-          path: dist/CV-Olusturucu.app
-          if-no-files-found: error
-
-  macos-universal:
-    name: macOS Universal2 app + dmg
-    runs-on: macos-14-arm64
-    needs: [macos-x64, macos-arm64]
-    env:
-      PYTHONIOENCODING: utf-8
-      PYTHONUTF8: "1"
-    steps:
-      - uses: actions/checkout@v7
-
-      - uses: actions/download-artifact@v8
-        with:
-          path: build/apps
-
-      - name: Universal app + dmg oluştur
+      - name: .app + .dmg üret
         run: |
-          python build_universal.py \
-            "build/apps/macos-arm64/CV-Olusturucu.app" \
-            "build/apps/macos-x64/CV-Olusturucu.app" \
-            "dist/CV-Olusturucu.app" \
-            "dist/CV-Olusturucu.dmg"
+          chmod +x build_mac.sh
+          ./build_mac.sh
 
       - name: macOS ürünlerini yükle
         uses: actions/upload-artifact@v7
@@ -126,7 +70,7 @@ jobs:
   release:
     name: GitHub Release oluştur
     if: startsWith(github.ref, 'refs/tags/')
-    needs: [windows, macos-universal]
+    needs: [windows, macos]
     runs-on: ubuntu-latest
     permissions:
       contents: write
