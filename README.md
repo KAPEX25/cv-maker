@@ -101,13 +101,6 @@ chmod +x build_mac.sh
 
 Çıktılar: `dist/CV-Olusturucu.app` ve `dist/CV-Olusturucu.dmg`.
 
-### B) Mac'iniz yoksa (GitHub Actions)
-
-Projeyi GitHub'a push edin, depo sayfasından **Actions → Build (Windows +
-macOS) → Run workflow** deyin. Workflow macOS sanal makinesinde derleyip
-`CV-Olusturucu-macOS` artifact'ı olarak `.app` + `.dmg`'yi indirmenize sunar.
-`v1.0` gibi bir **tag** attığınızda da otomatik tetiklenir.
-
 ### Dağıtım notu
 
 `hdiutil` ile üretilen `.dmg` kod imzalı değildir; macOS "kimliği doğrulanmamış
