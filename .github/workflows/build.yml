@@ -1,0 +1,62 @@
+name: Build (Windows + macOS)
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  windows:
+    name: Windows exe
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Bağımlılıkları kur
+        run: pip install pyinstaller reportlab pillow
+
+      - name: İkon üret (multi-size ico)
+        run: python build_icon.py
+
+      - name: Exe derle
+        run: pyinstaller CV-Olusturucu.spec --noconfirm
+
+      - name: Exe'yi yükle
+        uses: actions/upload-artifact@v4
+        with:
+          name: CV-Olusturucu-Windows
+          path: dist/CV-Olusturucu.exe
+
+  macos:
+    name: macOS app + dmg
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Bağımlılıkları kur
+        run: pip install pyinstaller reportlab pillow
+
+      - name: İkon üret (icns dahil)
+        run: python build_icon.py
+
+      - name: .app + .dmg üret
+        run: |
+          chmod +x build_mac.sh
+          ./build_mac.sh
+
+      - name: macOS ürünlerini yükle
+        uses: actions/upload-artifact@v4
+        with:
+          name: CV-Olusturucu-macOS
+          path: |
+            dist/CV-Olusturucu.app
+            dist/CV-Olusturucu.dmg

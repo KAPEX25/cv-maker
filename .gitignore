@@ -1,0 +1,19 @@
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+.vscode/
+
+# ---------- PyInstaller derleme çıktıları (exe + mac) ----------
+build/
+dist/
+*.spec.lock
+*.toc
+*.pyz
+
+# ---------- Runtime / status ----------
+*.log
+
+# macOS sistem dosyalarılar
+.DS_Store
