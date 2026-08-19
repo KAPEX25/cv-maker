@@ -66,3 +66,37 @@ jobs:
           path: |
             dist/CV-Olusturucu.app
             dist/CV-Olusturucu.dmg
+
+  release:
+    name: GitHub Release oluştur
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: [windows, macos]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+
+      - name: İndirilenleri listele
+        run: find dist -type f
+
+      - name: Release'e yükle (exe + dmg)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF_NAME}"
+          FILES=(
+            "dist/CV-Olusturucu-Windows/CV-Olusturucu.exe"
+            "dist/CV-Olusturucu-macOS/CV-Olusturucu.dmg"
+          )
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "${FILES[@]}" --clobber
+            echo "Mevcut release'e dosyalar eklendi: $TAG"
+          else
+            gh release create "$TAG" "${FILES[@]}" \
+              --title "CV Oluşturucu $TAG" --generate-notes
+            echo "Yeni release oluşturuldu: $TAG"
+          fi
