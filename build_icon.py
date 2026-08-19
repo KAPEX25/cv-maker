@@ -110,9 +110,9 @@ def main():
 
     if os.path.isfile(SRC):
         img = Image.open(SRC).convert("RGBA")
-        print(f"Kullanılıyor: {SRC}")
+        print(f"Using icon source: {SRC}")
     else:
-        print("logos/logo.png bulunamadı — otomatik placeholder ikonu üretiliyor.")
+        print("logos/logo.png not found - generating placeholder icon.")
         img = make_placeholder()
         img.save(SRC)
 
@@ -121,7 +121,7 @@ def main():
     with open(DST_ICNS, "wb") as f:
         f.write(build_icns(img, ICNS_SIZES))
 
-    print(f"Üretildi: {DST_ICO} ({ICO_SIZES}) + {DST_ICNS} ({ICNS_SIZES})")
+    print(f"Generated: {DST_ICO} ({ICO_SIZES}) + {DST_ICNS} ({ICNS_SIZES})")
     return 0
 
 
