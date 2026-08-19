@@ -84,8 +84,6 @@ cv_app/
 > ⚠️ **PyInstaller çapraz derleme yapamaz** — Windows üzerinden `.dmg`
 > üretilemez. Derleme mutlaka bir Mac'te yapılmalıdır.
 
-### A) Elinizde bir Mac varsa
-
 ```bash
 # 1) Bağımlılıkları kurun
 brew install python-tk
