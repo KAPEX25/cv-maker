@@ -17,7 +17,7 @@ export MACOSX_DEPLOYMENT_TARGET="${MACOSX_DEPLOYMENT_TARGET:-10.13}"
 export PYTHONIOENCODING=utf-8
 
 echo "==> 1/3: .app paketi derleniyor (pyinstaller)... [min macOS: $MACOSX_DEPLOYMENT_TARGET]"
-pyinstaller CV-Olusturucu-mac.spec --noconfirm
+python3 -m PyInstaller CV-Olusturucu-mac.spec --noconfirm
 
 APP="dist/CV-Olusturucu.app"
 if [ ! -d "$APP" ]; then
