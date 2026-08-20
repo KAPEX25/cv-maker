@@ -79,34 +79,6 @@ cv_app/
 └── README.md
 ```
 
-## macOS paketi (.dmg) üretme
-
-> ⚠️ **PyInstaller çapraz derleme yapamaz** — Windows üzerinden `.dmg`
-> üretilemez. Derleme mutlaka bir Mac'te yapılmalıdır.
-
-```bash
-# 1) Bağımlılıkları kurun
-brew install python-tk
-pip install pyinstaller reportlab pillow
-
-# 2) İkonu üretin (ilk kez veya logo değişince)
-python build_icon.py
-
-# 3) .app + .dmg oluşturun
-chmod +x build_mac.sh
-./build_mac.sh
-```
-
-Çıktılar: `dist/CV-Olusturucu.app` ve `dist/CV-Olusturucu.dmg`.
-
-### Dağıtım notu
-
-`hdiutil` ile üretilen `.dmg` kod imzalı değildir; macOS "kimliği doğrulanmamış
-geliştirici" uyarısı verebilir. İlk açılışta **Sağ tık → Aç** ile çalıştırabilir
-ya da dağıtım için bir Apple Geliştirici hesabıyla
-`codesign --force --deep --sign "Developer ID Application: ..."` komutuyla
-imzalamanız gerekir.
-
 ## Yeni şablon eklemek isterseniz
 
 `templates.py` içinde `draw_xxx(c, data)` imzasında yeni bir fonksiyon
